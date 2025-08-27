@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storm AI Features - Phase 1 Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Storm AI Features</h1>
+            <p class="text-xl text-gray-600">Phase 1 Implementation Demo</p>
+            <div class="mt-4 inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-lg">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                AI Service Active
+            </div>
+        </div>
+
+        <!-- AI Health Status -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                AI Service Health
+            </h2>
+            <div id="health-status" class="space-y-3">
+                <div class="animate-pulse">
+                    <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                    <div class="h-4 bg-gray-200 rounded w-1/2 mt-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Anomaly Detection -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Anomaly Detection</h3>
+                        <p class="text-sm text-gray-600">AI-powered anomaly detection</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Status:</span>
+                        <span class="text-green-600 font-medium">✓ Available</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Algorithm:</span>
+                        <span class="text-gray-600">Isolation Forest</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Analysis -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Usage Analysis</h3>
+                        <p class="text-sm text-gray-600">Intelligent usage patterns</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Status:</span>
+                        <span class="text-green-600 font-medium">✓ Available</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Features:</span>
+                        <span class="text-gray-600">Trends & Insights</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Predictions -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Usage Predictions</h3>
+                        <p class="text-sm text-gray-600">Future usage forecasting</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Status:</span>
+                        <span class="text-green-600 font-medium">✓ Available</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Model:</span>
+                        <span class="text-gray-600">Linear Regression</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Insights -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">AI Insights</h3>
+                        <p class="text-sm text-gray-600">OpenAI-powered analysis</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Status:</span>
+                        <span class="text-yellow-600 font-medium">⚠ Requires API Key</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Provider:</span>
+                        <span class="text-gray-600">OpenAI GPT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Recommendations -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Smart Recommendations</h3>
+                        <p class="text-sm text-gray-600">Actionable insights</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Status:</span>
+                        <span class="text-green-600 font-medium">✓ Available</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Categories:</span>
+                        <span class="text-gray-600">Performance & Security</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Documentation -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">API Documentation</h3>
+                        <p class="text-sm text-gray-600">Interactive API docs</p>
+                    </div>
+                </div>
+                <a href="http://localhost:8000/docs" target="_blank" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                    Open Swagger UI
+                </a>
+            </div>
+        </div>
+
+        <!-- Implementation Details -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4">Phase 1 Implementation Details</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold mb-3 text-blue-600">Backend Components</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                            <code class="bg-gray-100 px-2 py-1 rounded">app/ai_service.py</code> - Core AI service module
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                            <code class="bg-gray-100 px-2 py-1 rounded">app/routers/ai_analytics.py</code> - AI API endpoints
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                            <code class="bg-gray-100 px-2 py-1 rounded">requirements.txt</code> - AI/ML dependencies
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                            <code class="bg-gray-100 px-2 py-1 rounded">config.py</code> - AI configuration
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-3 text-purple-600">Frontend Components</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                            <code class="bg-gray-100 px-2 py-1 rounded">AIInsights.tsx</code> - AI insights component
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                            <code class="bg-gray-100 px-2 py-1 rounded">api.ts</code> - AI API integration
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                            <code class="bg-gray-100 px-2 py-1 rounded">Dashboard.tsx</code> - Updated with AI insights
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
+                            <span class="text-gray-600">Requires Node.js for full testing</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 mt-8">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-900">Next Steps (Phase 2)</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg p-4">
+                    <h3 class="font-semibold text-blue-800 mb-2">Advanced Analytics</h3>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Real-time monitoring</li>
+                        <li>• Custom ML models</li>
+                        <li>• Advanced visualizations</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-lg p-4">
+                    <h3 class="font-semibold text-blue-800 mb-2">AI-as-a-Service</h3>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• API marketplace</li>
+                        <li>• Custom AI endpoints</li>
+                        <li>• Revenue generation</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-lg p-4">
+                    <h3 class="font-semibold text-blue-800 mb-2">Smart Features</h3>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Auto-scaling</li>
+                        <li>• Intelligent pricing</li>
+                        <li>• Predictive maintenance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load AI health status
+        async function loadHealthStatus() {
+            try {
+                const response = await axios.get('http://localhost:8000/api/ai/health');
+                const health = response.data;
+                
+                const healthDiv = document.getElementById('health-status');
+                healthDiv.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="font-medium">Overall Status:</span>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-sm font-medium">${health.status}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">AI Enabled:</span>
+                                <span class="${health.ai_enabled ? 'text-green-600' : 'text-red-600'} font-medium">${health.ai_enabled ? '✓ Yes' : '✗ No'}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-medium">OpenAI Configured:</span>
+                                <span class="${health.openai_configured ? 'text-green-600' : 'text-yellow-600'} font-medium">${health.openai_configured ? '✓ Yes' : '⚠ No'}</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="font-medium text-gray-700">Available Services:</h4>
+                            ${Object.entries(health.services).map(([service, status]) => `
+                                <div class="flex justify-between text-sm">
+                                    <span class="capitalize">${service.replace('_', ' ')}:</span>
+                                    <span class="${status === 'available' ? 'text-green-600' : 'text-yellow-600'} font-medium">${status}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Failed to load health status:', error);
+                document.getElementById('health-status').innerHTML = `
+                    <div class="text-red-600">
+                        <p>⚠ Failed to connect to AI service</p>
+                        <p class="text-sm text-gray-600 mt-1">Make sure the backend server is running on port 8000</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load health status on page load
+        loadHealthStatus();
+    </script>
+</body>
+</html>

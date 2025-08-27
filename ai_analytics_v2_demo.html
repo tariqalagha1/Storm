@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storm AI Analytics v2.0 - Phase 2 Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/chart.js"></script>
+    <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js" type="module"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .status-online { background-color: #10b981; }
+        .status-warning { background-color: #f59e0b; }
+        .status-error { background-color: #ef4444; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold">Storm AI Analytics v2.0</h1>
+                    <p class="text-blue-100 mt-1">Advanced AI-powered analytics with real-time monitoring and intelligent automation</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white bg-opacity-20 text-white border border-white border-opacity-30">
+                        ✨ Phase 2 Active
+                    </span>
+                    <button id="monitoringToggle" class="inline-flex items-center px-4 py-2 bg-white bg-opacity-20 text-white rounded-lg hover:bg-opacity-30 transition-colors border border-white border-opacity-30">
+                        ▶️ Start Monitoring
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Real-time Status Bar -->
+    <div id="statusBar" class="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-200 hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="grid grid-cols-4 gap-4">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-600" id="totalRequests">1,247</div>
+                    <div class="text-sm text-gray-600">Total Requests</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-600" id="errorRate">2.3%</div>
+                    <div class="text-sm text-gray-600">Error Rate</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-purple-600" id="responseTime">145ms</div>
+                    <div class="text-sm text-gray-600">Avg Response Time</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-red-600" id="activeAlerts">3</div>
+                    <div class="text-sm text-gray-600">Active Alerts</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Tab Navigation -->
+        <div class="border-b border-gray-200 mb-8">
+            <nav class="flex space-x-1">
+                <button class="tab-button active" data-tab="monitoring">📊 Real-time Monitoring</button>
+                <button class="tab-button" data-tab="marketplace">🤖 AI Marketplace</button>
+                <button class="tab-button" data-tab="models">⚙️ Custom Models</button>
+                <button class="tab-button" data-tab="visualizations">📈 Advanced Visualizations</button>
+                <button class="tab-button" data-tab="automation">⚡ Intelligent Automation</button>
+                <button class="tab-button" data-tab="pricing">💰 Smart Pricing</button>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="tabContent">
+            <!-- Real-time Monitoring Tab -->
+            <div id="monitoring" class="tab-content active">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Live Metrics -->
+                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm card-hover">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                                📊 Live Metrics
+                                <span class="pulse-dot status-indicator status-online ml-2"></span>
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span>CPU Usage</span>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-20 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-blue-600 h-2 rounded-full" style="width: 67%"></div>
+                                        </div>
+                                        <span class="text-sm font-medium">67%</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Memory Usage</span>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-20 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: 45%"></div>
+                                        </div>
+                                        <span class="text-sm font-medium">45%</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Network I/O</span>
+                                    <span class="text-sm font-medium">2.3 MB/s</span>
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    Last updated: <span id="lastUpdated">Just now</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Alerts -->
+                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm card-hover">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                                ⚠️ Active Alerts
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 ml-2">3</span>
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-3 max-h-64 overflow-y-auto">
+                                <div class="p-3 border border-orange-200 rounded-lg bg-orange-50">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex items-start space-x-2">
+                                            <span class="text-orange-600">⚠️</span>
+                                            <div>
+                                                <div class="font-medium text-gray-900">High CPU usage detected</div>
+                                                <div class="text-xs text-gray-500 mt-1">2 minutes ago</div>
+                                            </div>
+                                        </div>
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200">high</span>
+                                    </div>
+                                </div>
+                                <div class="p-3 border border-yellow-200 rounded-lg bg-yellow-50">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex items-start space-x-2">
+                                            <span class="text-yellow-600">⚠️</span>
+                                            <div>
+                                                <div class="font-medium text-gray-900">Response time increasing</div>
+                                                <div class="text-xs text-gray-500 mt-1">5 minutes ago</div>
+                                            </div>
+                                        </div>
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200">medium</span>
+                                    </div>
+                                </div>
+                                <div class="p-3 border border-blue-200 rounded-lg bg-blue-50">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex items-start space-x-2">
+                                            <span class="text-blue-600">ℹ️</span>
+                                            <div>
+                                                <div class="font-medium text-gray-900">New model deployment ready</div>
+                                                <div class="text-xs text-gray-500 mt-1">10 minutes ago</div>
+                                            </div>
+                                        </div>
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">low</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Marketplace Tab -->
+            <div id="marketplace" class="tab-content hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm card-hover">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">GPT-4 Turbo</h3>
+                            <p class="text-sm text-gray-600 mt-1">Advanced language model for complex reasoning tasks</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">Language Model</span>
+                                    <span class="text-sm font-medium">$0.03/request</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm">Rating:</span>
+                                    <div class="flex items-center">
+                                        <span class="text-sm font-medium">4.8</span>
+                                        <span class="text-yellow-500 ml-1">★</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm">Usage:</span>
+                                    <span class="text-sm font-medium">12,450 requests</span>
+                                </div>
+                                <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Deploy Model
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm card-hover">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">DALL-E 3</h3>
+                            <p class="text-sm text-gray-600 mt-1">State-of-the-art image generation model</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">Image Generation</span>
+                                    <span class="text-sm font-medium">$0.08/request</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm">Rating:</span>
+                                    <div class="flex items-center">
+                                        <span class="text-sm font-medium">4.9</span>
+                                        <span class="text-yellow-500 ml-1">★</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm">Usage:</span>
+                                    <span class="text-sm font-medium">8,230 requests</span>
+                                </div>
+                                <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Deploy Model
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm card-hover">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Whisper Large</h3>
+                            <p class="text-sm text-gray-600 mt-1">Robust speech recognition across multiple languages</p>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">Speech Recognition</span>
+                                    <span class="text-sm font-medium">$0.02/request</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm">Rating:</span>
+                                    <div class="flex items-center">
+                                        <span class="text-sm font-medium">4.7</span>
+                                        <span class="text-yellow-500 ml-1">★</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm">Usage:</span>
+                                    <span class="text-sm font-medium">5,670 requests</span>
+                                </div>
+                                <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Deploy Model
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Models Tab -->
+            <div id="models" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900">Your Custom Models</h3>
+                    <button class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        📤 Train New Model
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm card-hover">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-900">Sales Predictor v2.1</h3>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">trained</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-sm">Type:</span>
+                                    <span class="text-sm font-medium">Random Forest</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm">Created:</span>
+                                    <span class="text-sm font-medium">Dec 15, 2024</span>
+                                </div>
+                                <div class="mt-3 p-2 bg-gray-50 rounded">
+                                    <div class="text-xs font-medium mb-1">Performance Metrics:</div>
+                                    <div class="flex justify-between text-xs">
+                                        <span>Accuracy:</span>
+                                        <span>0.924</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span>Precision:</span>
+                                        <span>0.891</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span>Recall:</span>
+                                        <span>0.887</span>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2 mt-3">
+                                    <button class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                        👁️ View
+                                    </button>
+                                    <button class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                        📥 Export
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm card-hover">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-900">Anomaly Detector</h3>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">training</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-sm">Type:</span>
+                                    <span class="text-sm font-medium">LSTM Autoencoder</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm">Created:</span>
+                                    <span class="text-sm font-medium">Dec 16, 2024</span>
+                                </div>
+                                <div class="mt-3 p-2 bg-yellow-50 rounded">
+                                    <div class="text-xs font-medium mb-1">Training Progress:</div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-yellow-600 h-2 rounded-full" style="width: 73%"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-600 mt-1">73% complete (ETA: 12 minutes)</div>
+                                </div>
+                                <div class="flex space-x-2 mt-3">
+                                    <button class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 opacity-50 cursor-not-allowed">
+                                        👁️ View
+                                    </button>
+                                    <button class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                        ⏹️ Stop
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Visualizations Tab -->
+            <div id="visualizations" class="tab-content hidden">
+                <div class="flex space-x-2 mb-6">
+                    <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        📈 Usage Trends
+                    </button>
+                    <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        🔥 Performance Heatmap
+                    </button>
+                    <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        🎯 Anomaly Detection
+                    </button>
+                </div>
+                
+                <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Advanced Analytics Visualization</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="h-96">
+                            <canvas id="advancedChart" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intelligent Automation Tab -->
+            <div id="automation" class="tab-content hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Auto-scaling Recommendations -->
+                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm card-hover">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                                🖥️ Auto-scaling Recommendations
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-3">
+                                <div class="p-3 border border-gray-200 rounded-lg">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-medium">Scale Up</span>
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">high</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">CPU usage consistently above 80% for the past 15 minutes</p>
+                                    <p class="text-sm font-medium mt-1">Suggested instances: +2</p>
+                                </div>
+                                <div class="p-3 border border-gray-200 rounded-lg">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-medium">Optimize Memory</span>
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">medium</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Memory allocation can be optimized based on usage patterns</p>
+                                    <p class="text-sm font-medium mt-1">Potential savings: $45/month</p>
+                                </div>
+                                <div class="p-3 border border-gray-200 rounded-lg">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-medium">Load Balancer Update</span>
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">low</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Update load balancer configuration for better distribution</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Predictive Maintenance -->
+                    <div class="bg-white rounded-lg border border-gray-200 shadow-sm card-hover">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                                🛡️ Predictive Maintenance
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <span>System Health Score</span>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-20 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: 85%"></div>
+                                        </div>
+                                        <span class="text-sm font-medium">85%</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-2">
+                                    <div class="text-sm font-medium">Predicted Issues:</div>
+                                    <div class="p-2 bg-yellow-50 border border-yellow-200 rounded">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-yellow-600">🕐</span>
+                                            <span class="text-sm">CPU usage trending up - potential overload in 2-4 hours</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 bg-blue-50 border border-blue-200 rounded">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-blue-600">💾</span>
+                                            <span class="text-sm">Database maintenance recommended within 7 days</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    View Detailed Analysis
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Pricing Tab -->
+            <div id="pricing" class="tab-content hidden">
+                <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                            💰 AI-Powered Pricing Recommendations
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-3 gap-4 p-4 bg-blue-50 rounded-lg">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-blue-600">$127</div>
+                                    <div class="text-sm text-gray-600">Current Monthly Cost</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-green-600">$97</div>
+                                    <div class="text-sm text-gray-600">Optimized Cost</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-purple-600">$30</div>
+                                    <div class="text-sm text-gray-600">Potential Savings</div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="p-3 border border-gray-200 rounded-lg">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-medium">Usage-based Optimization</span>
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">Recommended</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">
+                                        Based on your usage patterns, switching to a usage-based plan could save $20/month.
+                                    </p>
+                                </div>
+                                
+                                <div class="p-3 border border-gray-200 rounded-lg">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-medium">Premium SLA Tier</span>
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Consider</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">
+                                        Your excellent performance metrics qualify you for premium SLA with 99.99% uptime guarantee.
+                                    </p>
+                                </div>
+
+                                <div class="p-3 border border-gray-200 rounded-lg">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="font-medium">Reserved Instance Discount</span>
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">Available</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">
+                                        Commit to 1-year usage and save an additional 15% on compute costs.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                Apply Recommendations
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h3 class="text-lg font-semibold mb-2">Storm AI Analytics v2.0</h3>
+                <p class="text-gray-400">Phase 2 Implementation Complete</p>
+                <div class="mt-4 flex justify-center space-x-6">
+                    <span class="text-sm">✅ Real-time Monitoring</span>
+                    <span class="text-sm">✅ AI Marketplace</span>
+                    <span class="text-sm">✅ Custom Models</span>
+                    <span class="text-sm">✅ Advanced Visualizations</span>
+                    <span class="text-sm">✅ Intelligent Automation</span>
+                    <span class="text-sm">✅ Smart Pricing</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.dataset.tab;
+                
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => {
+                    c.classList.remove('active');
+                    c.classList.add('hidden');
+                });
+                
+                // Add active class to clicked tab and show content
+                button.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+                document.getElementById(tabId).classList.remove('hidden');
+            });
+        });
+
+        // Monitoring toggle
+        let isMonitoring = false;
+        document.getElementById('monitoringToggle').addEventListener('click', () => {
+            isMonitoring = !isMonitoring;
+            const button = document.getElementById('monitoringToggle');
+            const statusBar = document.getElementById('statusBar');
+            
+            if (isMonitoring) {
+                button.innerHTML = '⏸️ Stop Monitoring';
+                button.classList.remove('bg-white', 'bg-opacity-20');
+                button.classList.add('bg-red-600');
+                statusBar.classList.remove('hidden');
+                startRealTimeUpdates();
+            } else {
+                button.innerHTML = '▶️ Start Monitoring';
+                button.classList.remove('bg-red-600');
+                button.classList.add('bg-white', 'bg-opacity-20');
+                statusBar.classList.add('hidden');
+                stopRealTimeUpdates();
+            }
+        });
+
+        // Real-time updates simulation
+        let updateInterval;
+        function startRealTimeUpdates() {
+            updateInterval = setInterval(() => {
+                // Simulate real-time data updates
+                document.getElementById('totalRequests').textContent = Math.floor(Math.random() * 1000 + 1200);
+                document.getElementById('errorRate').textContent = (Math.random() * 5).toFixed(1) + '%';
+                document.getElementById('responseTime').textContent = Math.floor(Math.random() * 100 + 120) + 'ms';
+                document.getElementById('activeAlerts').textContent = Math.floor(Math.random() * 5 + 1);
+                document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
+            }, 2000);
+        }
+
+        function stopRealTimeUpdates() {
+            if (updateInterval) {
+                clearInterval(updateInterval);
+            }
+        }
+
+        // Initialize chart
+        function initChart() {
+            const ctx = document.getElementById('advancedChart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                        datasets: [{
+                            label: 'API Requests',
+                            data: [120, 190, 300, 500, 200, 300],
+                            borderColor: 'rgb(59, 130, 246)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4
+                        }, {
+                            label: 'Error Rate',
+                            data: [2, 3, 1, 4, 2, 1],
+                            borderColor: 'rgb(239, 68, 68)',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+        });
+    </script>
+
+    <style>
+        .tab-button {
+            @apply flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:text-gray-900 hover:bg-gray-100;
+        }
+        .tab-button.active {
+            @apply bg-blue-600 text-white;
+        }
+        .tab-content {
+            @apply block;
+        }
+        .tab-content.hidden {
+            @apply hidden;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Storm - The modern SaaS platform for developers. Create, manage, and scale your APIs with enterprise-grade security, real-time analytics, and seamless integrations." />
+    <meta name="keywords" content="API, SaaS, developer tools, analytics, security, cloud platform" />
+    <meta name="author" content="Storm SaaS Platform" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://storm-saas.com/" />
+    <meta property="og:title" content="Storm - Modern SaaS Platform for Developers" />
+    <meta property="og:description" content="Build powerful APIs with Storm. Enterprise-grade security, real-time analytics, and seamless integrations." />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://storm-saas.com/" />
+    <meta property="twitter:title" content="Storm - Modern SaaS Platform for Developers" />
+    <meta property="twitter:description" content="Build powerful APIs with Storm. Enterprise-grade security, real-time analytics, and seamless integrations." />
+    <meta property="twitter:image" content="%PUBLIC_URL%/twitter-image.png" />
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <title>Storm - Modern SaaS Platform for Developers</title>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Storm",
+      "description": "The modern SaaS platform for developers. Create, manage, and scale your APIs with enterprise-grade security, real-time analytics, and seamless integrations.",
+      "url": "https://storm-saas.com",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free tier available"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Storm SaaS Platform"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    
+    <!-- Loading fallback -->
+    <div id="loading-fallback" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; z-index: 9999; display: flex; align-items: center; justify-content: center;">
+      <div style="text-align: center;">
+        <div style="width: 40px; height: 40px; border: 4px solid #e2e8f0; border-top: 4px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px;"></div>
+        <p style="color: #64748b; font-family: 'Inter', sans-serif;">Loading Storm...</p>
+      </div>
+    </div>
+    
+    <style>
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Hide loading fallback when app loads */
+      #root:not(:empty) + #loading-fallback {
+        display: none !important;
+      }
+    </style>
+    
+    <!-- Error boundary fallback -->
+    <script>
+      window.addEventListener('error', function(e) {
+        console.error('Application error:', e.error);
+        // You can add error reporting here
+      });
+      
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('Unhandled promise rejection:', e.reason);
+        // You can add error reporting here
+      });
+    </script>
+  </body>
+</html>
